@@ -43,9 +43,9 @@ let newGame = new GameObject({
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
-function CharacterStats(attributes) {
-  GameObject.call(this, attributes);
-  this.healthPoints = attributes.healthPoints;
+function CharacterStats(ChAttr) {
+  GameObject.call(this, ChAttr);
+  this.healthPoints = ChAttr.healthPoints;
 }
 
 CharacterStats.prototype = Object.create(GameObject.prototype);
@@ -75,11 +75,11 @@ let newCha = new CharacterStats({
   * should inherit takeDamage() from CharacterStats
 */
 
-function Humanoid(attributes) {
-  CharacterStats.call(this, attributes);
-  this.team = attributes.team;
-  this.weapons = attributes.weapons;
-  this.language = attributes.language;
+function Humanoid(humanAttr) {
+  CharacterStats.call(this, humanAttr);
+  this.team = humanAttr.team;
+  this.weapons = humanAttr.weapons;
+  this.language = humanAttr.language;
 }
 
 Humanoid.prototype = Object.create(CharacterStats.prototype);
@@ -176,3 +176,144 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+/**
+ * Hero Constructor
+ */
+function Hero(feat) {
+  Humanoid.call(this, feat);
+  this.powerStat = feat.powerStat;
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+
+function Villain(feat) {
+  Humanoid.call(this, feat);
+  this.powerStat = feat.powerStat;
+}
+
+Villain.prototype = Object.create(Humanoid.prototype);
+Humanoid.prototype.speak = function() {
+  return `Hi I am ${this.name} the leader of ${this.team}.`;
+}
+Hero.prototype.attack = function(person) {
+  if(this.powerStat.durability + this.powerStat.combat +this.powerStat.power + this.powerStat.strength > 300) {
+    person.healthPoints -= 30;
+    return `${person.name} health point is now ${person.healthPoints}`
+  } else {
+    person.healthPoints -= 10;
+    return `${person.name} health point is now ${person.healthPoints}`
+  }
+}
+
+Villain.prototype.attack = function(person) {
+  if(this.powerStat.durability + this.powerStat.combat +this.powerStat.power + this.powerStat.strength > 300) {
+    person.healthPoints -= 30;
+    return `${person.name} health point is now ${person.healthPoints}`
+  } else {
+    person.healthPoints -= 10;
+    return `${person.name} health point is now ${person.healthPoints}`
+  }
+}
+
+// Hero.prototype.attack = function(person) {
+//   person.healthPoints -= 10;
+//   return `${person.name} has been attacked`
+// }
+
+const superman = new Hero({
+  createdAt: new Date(),
+  name: 'Superman',
+  dimensions: {
+    length: 50,
+    widht: 30,
+  },
+  healthPoints: 1000,
+  team: 'Justice league',
+  weapons: 'heat-vision',
+  language: 'kryptonia',
+  powerStat: {
+    intelligence: 80,
+    durability: 100,
+    speed: 100,
+    combat: 70,
+    power: 100,
+    strength: 100
+  }
+});
+
+const lex = new Villain({
+  createdAt: new Date(),
+  name: 'Lex Luthor',
+  dimensions: {
+    length: 50,
+    widht: 30,
+  },
+  healthPoints: 90,
+  team: 'Legion of doom',
+  weapons: 'kryptonite',
+  language: 'multi-lingual',
+  powerStat: {
+    intelligence: 100,
+    durability: 30,
+    speed: 10,
+    combat: 20,
+    power: 10,
+    strength: 10
+  }
+});
+
+const darkside = new Villain({
+  createdAt: new Date(),
+  name: 'Darkside',
+  dimensions: {
+    length: 50,
+    widht: 30,
+  },
+  healthPoints: 5000,
+  team: 'Legion of doom',
+  weapons: 'Omega beam',
+  language: 'multi-lingual',
+  powerStat: {
+    intelligence: 100,
+    durability: 100,
+    speed: 90,
+    combat: 100,
+    power: 100,
+    strength: 100
+  }
+});
+
+// console.log(superman.speak());
+// console.log(superman.attack(lex));
+// console.log(lex.attack(superman));
+// console.log(lex.speak());
+
+function randomIndex(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// Starts a fight between two fighters
+function battle(fighter1, fighter2) {
+  console.log(`Fight Started between ${fighter1.name} and ${fighter2.name}`);
+  let winner = '';
+  while (fighter1.healthPoints && fighter2.healthPoints) {
+    const index = randomIndex(1, 2);
+    if (index == 1) {
+      console.log(fighter2.takeDamage());
+      console.log(
+        `${fighter1.attack(fighter2)}`
+      );
+    } else {
+      console.log(fighter1.takeDamage());
+      console.log(
+        `${fighter2.attack(fighter1)}`
+      );
+    }
+  }
+  winner = fighter1.healthPoints > 0 ? fighter1.name : fighter2.name;
+  console.log(`Fight Ended, ${winner} is the new champion!`);
+}
+
+console.log(battle(superman, lex));
+// console.log(battle(superman, darkside));
