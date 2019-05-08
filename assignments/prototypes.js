@@ -24,7 +24,7 @@ function GameObject(attributes) {
 }
 
 GameObject.prototype.destroy = function () {
-  console.log(`${this.name} was removed from the game.`);
+  return `${this.name} was removed from the game.`;
 }
 
 let newGame = new GameObject({
@@ -36,8 +36,6 @@ let newGame = new GameObject({
   }
 
 });
-console.log(newGame);
-console.log(newGame.destroy());
 
 /*
   === CharacterStats ===
@@ -53,7 +51,7 @@ function CharacterStats(attributes) {
 CharacterStats.prototype = Object.create(GameObject.prototype);
 
 CharacterStats.prototype.takeDamage = function () {
-  console.log(`${this.name} took damage.`);
+  return `${this.name} took damage.`;
 }
 
 let newCha = new CharacterStats({
@@ -66,8 +64,7 @@ let newCha = new CharacterStats({
   healthPoints: '99'
 
 });
-console.log(newCha);
-console.log(newCha.takeDamage());
+
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
   * team
@@ -87,7 +84,7 @@ function Humanoid(attributes) {
 
 Humanoid.prototype = Object.create(CharacterStats.prototype);
 Humanoid.prototype.greet = function() {
-  console.log(`${this.name} offers a greeting in ${this.language}.`);
+  return `${this.name} offers a greeting in ${this.language}.`;
 }
 
 const kent = new Humanoid({
@@ -103,8 +100,6 @@ const kent = new Humanoid({
   language: 'kryptonia'
 
 })
- console.log(kent);
- console.log(kent.greet());
 
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
