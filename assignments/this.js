@@ -54,14 +54,53 @@ function CordialPerson(greeter) {
 // Principle 4
 
 // code example for Explicit Binding
+
+function GameObject(attributes) {
+this.createdAt = attributes.createdAt;
+this.name = attributes.name;
+this.dimensions = attributes.dimensions;
+}
+
+GameObject.prototype.destroy = function () {
+return `${this.name} was removed from the game.`;
+}
+
+let demoGame = new GameObject({
+createdAt: '8th May',
+name: 'pascal',
+dimensions: {
+  length: 50,
+  widht: 30,
+}
+
+});
+
+/*
+=== CharacterStats ===
+* healthPoints
+* takeDamage() // prototype method -> returns the string '<object name> took damage.'
+* should inherit destroy() from GameObject's prototype
+*/
 function CharacterStats(attributes) {
-    GameObject.call(this, attributes);
-    this.healthPoints = attributes.healthPoints;
-  }
-  
-  CharacterStats.prototype = Object.create(GameObject.prototype);
-  
-  CharacterStats.prototype.takeDamage = function () {
-    return `${this.name} took damage.`;
-  }
-  
+GameObject.call(this, attributes);
+this.healthPoints = attributes.healthPoints;
+}
+
+CharacterStats.prototype = Object.create(GameObject.prototype);
+
+CharacterStats.prototype.takeDamage = function () {
+return `${this.name} took damage.`;
+}
+
+let demoCha = new CharacterStats({
+createdAt: '8th May',
+name: 'pascal',
+dimensions: {
+  length: 50,
+  widht: 30,
+},
+healthPoints: '99'
+
+});
+
+console.log(demoGame);
