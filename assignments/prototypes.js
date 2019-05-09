@@ -178,7 +178,7 @@ console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
 
 /**
- * Hero Constructor
+ * Hero and Villian Constructors
  */
 function Hero(feat) {
   Humanoid.call(this, feat);
@@ -197,7 +197,7 @@ Humanoid.prototype.speak = function() {
   return `Hi I am ${this.name} the leader of ${this.team}.`;
 }
 Hero.prototype.attack = function(person) {
-  if(this.powerStat.durability + this.powerStat.combat +this.powerStat.power + this.powerStat.strength > 300) {
+  if(this.powerStat.durability + this.powerStat.combat +this.powerStat.power + this.powerStat.strength > 30) {
     person.healthPoints -= 30;
     return `${person.name} health point is now ${person.healthPoints}`
   } else {
@@ -207,7 +207,7 @@ Hero.prototype.attack = function(person) {
 }
 
 Villain.prototype.attack = function(person) {
-  if(this.powerStat.durability + this.powerStat.combat +this.powerStat.power + this.powerStat.strength > 300) {
+  if(this.powerStat.durability + this.powerStat.combat +this.powerStat.power + this.powerStat.strength > 30) {
     person.healthPoints -= 30;
     return `${person.name} health point is now ${person.healthPoints}`
   } else {
@@ -216,11 +216,6 @@ Villain.prototype.attack = function(person) {
   }
 }
 
-// Hero.prototype.attack = function(person) {
-//   person.healthPoints -= 10;
-//   return `${person.name} has been attacked`
-// }
-
 const superman = new Hero({
   createdAt: new Date(),
   name: 'Superman',
@@ -228,17 +223,17 @@ const superman = new Hero({
     length: 50,
     widht: 30,
   },
-  healthPoints: 1000,
+  healthPoints: 100,
   team: 'Justice league',
   weapons: 'heat-vision',
   language: 'kryptonia',
   powerStat: {
-    intelligence: 80,
-    durability: 100,
-    speed: 100,
-    combat: 70,
-    power: 100,
-    strength: 100
+    intelligence: 8,
+    durability: 10,
+    speed: 10,
+    combat: 7,
+    power: 10,
+    strength: 10
   }
 });
 
@@ -249,17 +244,17 @@ const lex = new Villain({
     length: 50,
     widht: 30,
   },
-  healthPoints: 90,
+  healthPoints: 20,
   team: 'Legion of doom',
   weapons: 'kryptonite',
   language: 'multi-lingual',
   powerStat: {
-    intelligence: 100,
-    durability: 30,
-    speed: 10,
-    combat: 20,
-    power: 10,
-    strength: 10
+    intelligence: 10,
+    durability: 3,
+    speed: 1,
+    combat: 2,
+    power: 1,
+    strength: 1
   }
 });
 
@@ -270,24 +265,19 @@ const darkside = new Villain({
     length: 50,
     widht: 30,
   },
-  healthPoints: 5000,
+  healthPoints: 100,
   team: 'Legion of doom',
   weapons: 'Omega beam',
   language: 'multi-lingual',
   powerStat: {
-    intelligence: 100,
-    durability: 100,
-    speed: 90,
-    combat: 100,
-    power: 100,
-    strength: 100
+    intelligence: 10,
+    durability: 10,
+    speed: 9,
+    combat: 8,
+    power: 10,
+    strength: 10
   }
 });
-
-// console.log(superman.speak());
-// console.log(superman.attack(lex));
-// console.log(lex.attack(superman));
-// console.log(lex.speak());
 
 function randomIndex(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -297,7 +287,7 @@ function randomIndex(min, max) {
 function battle(fighter1, fighter2) {
   console.log(`Fight Started between ${fighter1.name} and ${fighter2.name}`);
   let winner = '';
-  while (fighter1.healthPoints && fighter2.healthPoints) {
+  while (fighter1.healthPoints > 0 && fighter2.healthPoints > 0) {
     const index = randomIndex(1, 2);
     if (index == 1) {
       console.log(fighter2.takeDamage());
@@ -311,9 +301,11 @@ function battle(fighter1, fighter2) {
       );
     }
   }
-  winner = fighter1.healthPoints > 0 ? fighter1.name : fighter2.name;
-  console.log(`Fight Ended, ${winner} is the new champion!`);
+  
+  winner = fighter1.healthPoints >0? console.log(`Fight Ended, ${fighter1.name} is the new champion! ${fighter2.destroy()}`) : 
+  console.log(`Fight Ended, ${fighter2.name} is the new champion! ${fighter1.destroy()}`);
+  return winner;
 }
 
-console.log(battle(superman, lex));
-// console.log(battle(superman, darkside));
+// console.log(battle(superman, lex));
+console.log(battle(superman, darkside));
